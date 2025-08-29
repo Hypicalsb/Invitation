@@ -1,0 +1,559 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LTN Chef Masters - European Menu</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Georgia', serif;
+            background: #1a1a1a;
+            color: #f4f4f4;
+            overflow-x: hidden;
+        }
+
+        .menu-background {
+            background: linear-gradient(rgba(0,0,0,0.8), rgba(0,0,0,0.8)), 
+                        url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 600"><rect fill="%23654321" width="1200" height="600"/><path fill="%238B4513" d="M0 0h1200v100l-50 20v80l-50 20v80l-50 20v80l-50 20v80l-50 20v80l-50 20v40H0z" opacity="0.3"/></svg>');
+            background-size: cover;
+            background-attachment: fixed;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .menu-header {
+            text-align: center;
+            padding: 60px 20px;
+            background: linear-gradient(135deg, rgba(139,69,19,0.9), rgba(160,82,45,0.9));
+            border-radius: 20px;
+            margin-bottom: 40px;
+            border: 3px solid #d4af37;
+            box-shadow: 0 0 30px rgba(212,175,55,0.3);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .menu-header::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(212,175,55,0.1) 0%, transparent 70%);
+            animation: rotate 20s linear infinite;
+        }
+
+        .restaurant-name {
+            font-size: 4rem;
+            color: #d4af37;
+            text-shadow: 3px 3px 6px rgba(0,0,0,0.7);
+            margin-bottom: 20px;
+            letter-spacing: 3px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .tagline {
+            font-size: 1.8rem;
+            color: #f4f4f4;
+            font-style: italic;
+            margin-bottom: 30px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .event-banner {
+            background: linear-gradient(45deg, #d4af37, #b8860b);
+            padding: 20px;
+            border-radius: 15px;
+            margin: 30px 0;
+            text-align: center;
+            color: #1a1a1a;
+            font-weight: bold;
+            font-size: 1.3rem;
+            box-shadow: 0 8px 16px rgba(0,0,0,0.3);
+            position: relative;
+            z-index: 1;
+        }
+
+        .menu-section {
+            background: linear-gradient(135deg, rgba(139,69,19,0.95), rgba(101,67,33,0.95));
+            border-radius: 20px;
+            margin: 40px 0;
+            border: 2px solid #d4af37;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            overflow: hidden;
+            position: relative;
+        }
+
+        .section-header {
+            background: linear-gradient(135deg, #d4af37, #b8860b);
+            padding: 25px;
+            text-align: center;
+            position: relative;
+        }
+
+        .section-title {
+            font-size: 2.5rem;
+            color: #1a1a1a;
+            margin: 0;
+            text-shadow: 1px 1px 2px rgba(255,255,255,0.3);
+        }
+
+        .flag-decoration {
+            font-size: 2rem;
+            margin: 10px 0;
+        }
+
+        .menu-item {
+            padding: 30px;
+            border-bottom: 1px solid rgba(212,175,55,0.3);
+            position: relative;
+            background: linear-gradient(135deg, rgba(139,69,19,0.3), rgba(101,67,33,0.3));
+            transition: all 0.3s ease;
+        }
+
+        .menu-item:hover {
+            background: linear-gradient(135deg, rgba(139,69,19,0.6), rgba(101,67,33,0.6));
+            transform: translateX(10px);
+        }
+
+        .menu-item:last-child {
+            border-bottom: none;
+        }
+
+        .dish-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 15px;
+            flex-wrap: wrap;
+        }
+
+        .dish-name {
+            font-size: 2rem;
+            color: #d4af37;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        .dish-price {
+            font-size: 1.5rem;
+            color: #d4af37;
+            font-weight: bold;
+        }
+
+        .country-flag {
+            font-size: 1.5rem;
+            margin-left: 10px;
+        }
+
+        .dish-description {
+            font-size: 1.1rem;
+            color: #e0e0e0;
+            line-height: 1.6;
+            margin-bottom: 10px;
+            font-style: italic;
+        }
+
+        .cooking-info {
+            display: flex;
+            gap: 20px;
+            flex-wrap: wrap;
+            margin-top: 15px;
+        }
+
+        .cook-time, .difficulty, .serves {
+            background: rgba(212,175,55,0.2);
+            color: #d4af37;
+            padding: 8px 15px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            border: 1px solid rgba(212,175,55,0.5);
+        }
+
+        .visual-element {
+            font-size: 3rem;
+            position: absolute;
+            right: 30px;
+            top: 50%;
+            transform: translateY(-50%);
+            opacity: 0.3;
+            transition: all 0.3s ease;
+        }
+
+        .menu-item:hover .visual-element {
+            opacity: 0.6;
+            transform: translateY(-50%) scale(1.1);
+        }
+
+        .drinks-menu {
+            background: linear-gradient(135deg, rgba(25,25,112,0.9), rgba(72,61,139,0.9));
+            border: 2px solid #4169e1;
+        }
+
+        .drinks-menu .section-header {
+            background: linear-gradient(135deg, #4169e1, #1e90ff);
+        }
+
+        .drinks-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 20px;
+            padding: 30px;
+        }
+
+        .drink-card {
+            background: linear-gradient(135deg, rgba(25,25,112,0.6), rgba(72,61,139,0.6));
+            border: 2px solid rgba(65,105,225,0.5);
+            border-radius: 15px;
+            padding: 25px;
+            text-align: center;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .drink-card::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(65,105,225,0.1) 0%, transparent 70%);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .drink-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(65,105,225,0.4);
+        }
+
+        .drink-card:hover::before {
+            opacity: 1;
+        }
+
+        .drink-name {
+            font-size: 1.3rem;
+            color: #87ceeb;
+            font-weight: bold;
+            margin-bottom: 10px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .drink-emoji {
+            font-size: 2rem;
+            margin-bottom: 10px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .chefs-section {
+            background: linear-gradient(135deg, rgba(128,0,128,0.9), rgba(75,0,130,0.9));
+            border: 2px solid #9370db;
+            text-align: center;
+            padding: 40px;
+        }
+
+        .chefs-section .section-header {
+            background: linear-gradient(135deg, #9370db, #8a2be2);
+        }
+
+        .chef-names {
+            font-size: 2.5rem;
+            color: #dda0dd;
+            font-weight: bold;
+            margin: 20px 0;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+        }
+
+        .rsvp-section {
+            background: linear-gradient(135deg, rgba(220,20,60,0.9), rgba(255,69,0,0.9));
+            border: 3px solid #ff6347;
+            text-align: center;
+            padding: 50px;
+            animation: glow 2s ease-in-out infinite alternate;
+        }
+
+        .rsvp-section .section-header {
+            background: linear-gradient(135deg, #ff6347, #dc143c);
+        }
+
+        .rsvp-text {
+            font-size: 1.8rem;
+            color: #fff;
+            font-weight: bold;
+            margin: 25px 0;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.7);
+        }
+
+        .date-location {
+            display: flex;
+            justify-content: space-around;
+            flex-wrap: wrap;
+            gap: 30px;
+            margin: 40px 0;
+        }
+
+        .info-bubble {
+            background: rgba(255,255,255,0.1);
+            border: 2px solid #d4af37;
+            border-radius: 20px;
+            padding: 30px;
+            text-align: center;
+            backdrop-filter: blur(10px);
+            min-width: 200px;
+        }
+
+        .info-bubble h3 {
+            font-size: 1.5rem;
+            color: #d4af37;
+            margin-bottom: 15px;
+        }
+
+        .info-bubble p {
+            font-size: 1.3rem;
+            color: #f4f4f4;
+            font-weight: bold;
+        }
+
+        @keyframes rotate {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        @keyframes glow {
+            from {
+                box-shadow: 0 0 20px rgba(255,99,71,0.5);
+            }
+            to {
+                box-shadow: 0 0 30px rgba(255,99,71,0.8), 0 0 40px rgba(255,99,71,0.6);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .restaurant-name {
+                font-size: 2.5rem;
+            }
+            
+            .dish-header {
+                flex-direction: column;
+            }
+            
+            .visual-element {
+                position: static;
+                transform: none;
+                margin: 20px 0;
+            }
+            
+            .date-location {
+                flex-direction: column;
+                align-items: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="menu-background">
+        <div class="container">
+            <!-- Restaurant Header -->
+            <div class="menu-header">
+                <h1 class="restaurant-name">🍽️ LTN CHEF MASTERS 🍽️</h1>
+                <div class="tagline">~ A Culinary Journey Through Europe ~</div>
+                
+                <div class="event-banner">
+                    🎉 GRAND OPENING CELEBRATION - FATHER'S DAY SPECIAL 🎉<br>
+                    "All OG Cousins Unite for an Epic 5-Course Experience!"
+                </div>
+                
+                <div class="date-location">
+                    <div class="info-bubble">
+                        <h3>📅 Date</h3>
+                        <p>September 7th</p>
+                    </div>
+                    <div class="info-bubble">
+                        <h3>📍 Location</h3>
+                        <p>Agnes Banks</p>
+                    </div>
+                    <div class="info-bubble">
+                        <h3>⏰ Times</h3>
+                        <p>TBA Soon!</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Entrée Section -->
+            <div class="menu-section">
+                <div class="section-header">
+                    <h2 class="section-title">ENTRÉE</h2>
+                    <div class="flag-decoration">🇨🇭 Switzerland 🇨🇭</div>
+                </div>
+                <div class="menu-item">
+                    <div class="visual-element">🧀</div>
+                    <div class="dish-header">
+                        <div>
+                            <div class="dish-name">Raclette <span class="country-flag">🇨🇭</span></div>
+                        </div>
+                        <div class="dish-price">★ STARTER ★</div>
+                    </div>
+                    <div class="dish-description">
+                        Traditional Swiss melted cheese dish served with potatoes, pickles, and charcuterie. 
+                        A warm, comforting start to our European adventure that will transport you straight to the Alps!
+                    </div>
+                    <div class="cooking-info">
+                        <span class="cook-time">⏱️ 30 min - 1 hour</span>
+                        <span class="difficulty">👨‍🍳 Moderate</span>
+                        <span class="serves">🍽️ Perfect for sharing</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Side Dish Section -->
+            <div class="menu-section">
+                <div class="section-header">
+                    <h2 class="section-title">ACCOMPAGNEMENT</h2>
+                    <div class="flag-decoration">🇫🇷 France 🇫🇷</div>
+                </div>
+                <div class="menu-item">
+                    <div class="visual-element">🍆</div>
+                    <div class="dish-header">
+                        <div>
+                            <div class="dish-name">Ratatouille <span class="country-flag">🇫🇷</span></div>
+                        </div>
+                        <div class="dish-price">★ SIDE ★</div>
+                    </div>
+                    <div class="dish-description">
+                        Classic French vegetable medley with eggplant, zucchini, bell peppers, and tomatoes. 
+                        Just like in the movie - but even more delicious! A colorful celebration of Mediterranean flavors.
+                    </div>
+                    <div class="cooking-info">
+                        <span class="cook-time">⏱️ 1 - 2 hours</span>
+                        <span class="difficulty">👨‍🍳 Artisanal</span>
+                        <span class="serves">🌱 Fresh & Vibrant</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Main Course Section -->
+            <div class="menu-section">
+                <div class="section-header">
+                    <h2 class="section-title">PIATTO PRINCIPALE</h2>
+                    <div class="flag-decoration">🇮🇹 Italia 🇮🇹</div>
+                </div>
+                <div class="menu-item">
+                    <div class="visual-element">🥩</div>
+                    <div class="dish-header">
+                        <div>
+                            <div class="dish-name">Italian Beef Braciole <span class="country-flag">🇮🇹</span></div>
+                        </div>
+                        <div class="dish-price">★ MAIN ★</div>
+                    </div>
+                    <div class="dish-description">
+                        Tender beef rolls stuffed with herbs, cheese, and breadcrumbs, slowly braised in rich tomato sauce. 
+                        A true Italian masterpiece that's been perfected through generations - "Mamma mia!"
+                    </div>
+                    <div class="cooking-info">
+                        <span class="cook-time">⏱️ 2 - 3.5 hours</span>
+                        <span class="difficulty">👨‍🍳 Master Level</span>
+                        <span class="serves">🍷 Pairs with Italian wines</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Dessert Section -->
+            <div class="menu-section">
+                <div class="section-header">
+                    <h2 class="section-title">POSTRE</h2>
+                    <div class="flag-decoration">🇪🇸 España 🇪🇸</div>
+                </div>
+                <div class="menu-item">
+                    <div class="visual-element">🍮</div>
+                    <div class="dish-header">
+                        <div>
+                            <div class="dish-name">Crema Catalana <span class="country-flag">🇪🇸</span></div>
+                        </div>
+                        <div class="dish-price">★ FINALE ★</div>
+                    </div>
+                    <div class="dish-description">
+                        Spain's answer to crème brûlée! Silky vanilla custard infused with lemon and cinnamon, 
+                        topped with caramelized sugar. A sweet ending to our European journey - "¡Delicioso!"
+                    </div>
+                    <div class="cooking-info">
+                        <span class="cook-time">⏱️ 2.5 hours</span>
+                        <span class="difficulty">👨‍🍳 Precision Required</span>
+                        <span class="serves">🔥 Torched to perfection</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Beverages Section -->
+            <div class="menu-section drinks-menu">
+                <div class="section-header">
+                    <h2 class="section-title">SIGNATURE BEVERAGES</h2>
+                    <div class="flag-decoration">🍹 Crafted with Love 🍹</div>
+                </div>
+                <div class="drinks-grid">
+                    <div class="drink-card">
+                        <div class="drink-emoji">🍋</div>
+                        <div class="drink-name">Pink Lemonade</div>
+                    </div>
+                    <div class="drink-card">
+                        <div class="drink-emoji">🌊</div>
+                        <div class="drink-name">Red Rocks by the Sea</div>
+                    </div>
+                    <div class="drink-card">
+                        <div class="drink-emoji">🌿</div>
+                        <div class="drink-name">Minty Spuzz</div>
+                    </div>
+                    <div class="drink-card">
+                        <div class="drink-emoji">🍓</div>
+                        <div class="drink-name">Tooty Fruity</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Chefs Section -->
+            <div class="menu-section chefs-section">
+                <div class="section-header">
+                    <h2 class="section-title">YOUR MASTER CHEFS</h2>
+                    <div class="flag-decoration">👨‍🍳 Meet the Culinary Artists 👩‍🍳</div>
+                </div>
+                <div class="chef-names">ZARA & AZLAN</div>
+                <p style="font-size: 1.2rem; color: #dda0dd; font-style: italic;">
+                    "Bringing European traditions to your table with passion, creativity, and family love!"
+                </p>
+            </div>
+
+            <!-- RSVP Section -->
+            <div class="menu-section rsvp-section">
+                <div class="section-header">
+                    <h2 class="section-title">RÉSERVATION REQUIRED</h2>
+                </div>
+                <div class="rsvp-text">
+                    🎯 SAVE THE DATE! 🎯<br>
+                    Please RSVP by Monday!<br>
+                    <span style="font-size: 1.3rem;">Detailed timings coming soon...</span>
+                </div>
+                <div style="font-size: 1.1rem; margin-top: 20px; opacity: 0.9;">
+                    Limited seating available for this exclusive family celebration!
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
